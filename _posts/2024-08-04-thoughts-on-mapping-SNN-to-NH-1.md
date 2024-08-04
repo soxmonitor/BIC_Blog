@@ -1,20 +1,20 @@
 ---
 layout: post
-title: "Edge Case: Nested and Mixed Lists"
+title: "Thoughts on Mapping SNN to NH(1)"
 date: 2024-08-04 17:57:20 +0800
 categories:
-  - Edge Case
+  - Views on essay
 tags:
-  - content
-  - css
-  - edge case
-  - lists
-  - markup
+  - thoughts
+  - snn
+  - reason
+  - partitioning
+  - clustering
 ---
 
-Nested and mixed lists are an interesting beast. It's a corner case to make sure that
+前人的方法有局限性：
 
-* Lists within lists do not break the ordered list numbering order
+* 之前更关注怎么优化对神经元的划分
 * Your list styles go deep enough.
 
 ### Ordered -- Unordered -- Ordered
