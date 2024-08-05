@@ -1,3 +1,4 @@
+/* name style */
 .special-title {
   font-size: 24px;
   color: #333; /* 默认颜色 */
@@ -10,4 +11,29 @@
 .special-title:hover {
   color: #fff; /* 鼠标悬停时的文字颜色 */
   background-color: #3498db; /* 鼠标悬停时的背景颜色 */
+}
+
+/* button */
+.download-button-container {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+}
+
+.download-button {
+  padding: 15px 15px; /* 调整padding使其更接近圆形 */
+  background-color: #4CAF50; /* 绿色背景 */
+  color: white; /* 白色文字 */
+  text-decoration: none;
+  border-radius: 50%; /* 圆形 */
+  font-size: 16px;
+  display: inline-block; /* 确保宽度和高度生效 */
+  text-align: center;
+  min-width: 50px; /* 最小宽度，确保圆形的完整性 */
+  height: 50px; /* 高度与宽度相等，形成完美的圆形 */
+  line-height: 20px; /* 调整文本行高以在按钮中居中 */
+}
+
+.download-button:hover {
+  background-color: #367c39; /* 深绿色的悬停效果 */
 }
