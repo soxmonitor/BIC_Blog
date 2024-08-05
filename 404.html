@@ -22,4 +22,17 @@ layout: default
 
   <p><strong>Page not found :(</strong></p>
   <p>The requested page could not be found.</p>
-</div>
+  <p>
+    <a href="#" onclick="playAudio(); return false;">Go fuck yourself, faggot :)</a>
+  </p>
+
+  <!-- 音频元素 -->
+  <audio id="errorSound" src="/assets/audio/error-sound.mp3"></audio>
+
+  <script>
+    function playAudio() {
+      var audio = document.getElementById('errorSound');
+      audio.play();
+    }
+  </script>
+  </div>
