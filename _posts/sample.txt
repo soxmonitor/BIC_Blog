@@ -25,39 +25,12 @@ tags:
    </div>  <br>
 
 2. TrueNorth:
-   <div style="margin-left: 20px;">
-       输入层(即第一个layer)集群（clusters）被放置在固定位置。(超参数)  <br>
-       对于第二层及其后的每一层：  
-
-           每个集群会计算其到前一层所有相邻集群的距离总和。
-           选择距离总和最小的硬件核心来放置当前层的集群。
-   </div>  <br>
-3. DFSynthesizer:
-   <div style="margin-left: 20px;">
-       
-        随机初始化集群位置。
-        计算初始吞吐量和能耗。
-        在每次迭代中：
-            随机选择两个集群并交换它们的位置。
-            重新计算吞吐量和能耗。
-            如果新的映射更优，则保留新映射；否则，恢复到之前的映射。
-        重复上述过程直到满足停止条件。
-   </div>  <br>
-
-4. SDFSNN:
-   <div style="margin-left: 20px;">
-    将SNN模型转化为SDFG模型，在SDFGs的框架下进行随机映射迭代。
-    <div style="margin-left: 20px;">
-      <ul>
-          <li>SDFGs(Synchronous Data-Flow Graphs):  <br>
-          1. 先生成一个拓扑矩阵,示例如下：<br>
-          <img src="/assets/2024-08-04-topology-matrix.png" alt="Topology Matrix Example">
-          </li>
-      </ul>
-    </div>
-   </div>  <br>
-  
-
+  * **unordered**
+  * **unordered**
+    1. ordered item
+    2. ordered item
+3. ordered item
+4. ordered item
 
 ### Ordered -- Unordered -- Unordered
 
