@@ -5,14 +5,15 @@ layout: default
 <script>
   function verifyPassword() {
     var password = prompt('请输入密码:', '');
-    if (password != 'youcracked') {
-      document.body.innerHTML = '密码错误，没有访问权限！';
+    // 统一转换为小写并移除所有空格
+    password = password.toLowerCase().replace(/\s/g, '');
+    if (password !== 'youcracked') {
+      document.body.innerHTML = 'Pwd wrong，no access right！';
       return false;
     }
     return true;
   }
   if (!verifyPassword()) {
-    // 可以选择重定向到其他页面，或者只显示错误消息
     window.location.href = '/404.html'; // 如果密码错误，重定向到错误页面
   }
 </script>
