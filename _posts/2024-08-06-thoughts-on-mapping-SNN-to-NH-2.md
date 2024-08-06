@@ -16,6 +16,10 @@ tags:
 
 <iframe src="/assets/blog2/hilbert.html" width="420" height="420" style="border:none;"></iframe>
 
+希尔伯特3D曲线演示：
+[3D Hilbert Curves演示](https://observablehq.com/@mourner/3d-hilbert-curves)。
+
+
 * 之前更关注怎么优化对神经元的划分
 * 方法全是适用于小于5000核的映射问题
 
