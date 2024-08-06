@@ -1,3 +1,17 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hilbert Curve Animation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    </style>
+</head>
+<body>
+    <script src="hilbert.js"></script>
+</body>
+</html> -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,11 +19,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
 </head>
 <body>
-    <label for="orderInput">Select order (2-10): </label>
-    <input type="number" id="orderInput" value="4" min="2" max="10">
-    <button onclick="startAnimation()">Start Animation</button>
-
-    <audio id="boomSound" src="boom.mp3"></audio>
+    <label for="orderInput">Select order [2,10]: </label>
+    <input type="number" id="orderInput" value="4" min="2" max="1000">
+    <button onclick="restartAnimation()">Start Animation</button>
 
     <script>
         let order = 4;
@@ -45,46 +57,6 @@
                 } else {
                     animationPlaying = false; // Stop the loop when we reach the end of the path
                 }
-            }
-        }
-
-        function validateInput(value) {
-            if (!Number.isInteger(value) || value < 2 || value > 10) {
-                return false;
-            }
-            return true;
-        }
-
-        function startAnimation() {
-            const inputElement = document.getElementById('orderInput');
-            const orderValue = parseInt(inputElement.value);
-
-            if (!validateInput(orderValue)) {
-                const confirmAction = confirm("Boom! 输入值超出范围或不合规，你是否坚持运行？对设备硬件有要求哦。");
-                if (confirmAction) {
-                    document.getElementById('boomSound').play();
-                    setTimeout(() => {
-                        calculatePath();
-                        counter = 0;
-                        animationPlaying = true;
-                    }, 1000); // Delay to allow sound to play
-                }
-            } else {
-                calculatePath();
-                counter = 0;
-                animationPlaying = true;
-            }
-        }
-
-        function calculatePath() {
-            order = parseInt(document.getElementById('orderInput').value);
-            N = Math.pow(2, order);
-            total = N * N;
-            path = [];
-            for (let i = 0; i < total; i++) {
-                path[i] = hilbert(i);
-                path[i].mult(width / N);
-                path[i].add(width / N / 2, width / N / 2);
             }
         }
 
@@ -126,6 +98,24 @@
                 }
             }
             return v;
+        }
+
+        function calculatePath() {
+            order = parseInt(document.getElementById('orderInput').value);
+            N = Math.pow(2, order);
+            total = N * N;
+            path = [];
+            for (let i = 0; i < total; i++) {
+                path[i] = hilbert(i);
+                path[i].mult(width / N);
+                path[i].add(width / N / 2, width / N / 2);
+            }
+        }
+
+        function restartAnimation() {
+            calculatePath();
+            counter = 0;
+            animationPlaying = true;
         }
     </script>
 </body>
