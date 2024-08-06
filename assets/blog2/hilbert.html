@@ -1,0 +1,122 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hilbert Curve Animation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    </style>
+</head>
+<body>
+    <script src="hilbert.js"></script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hilbert Curve Animation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+    <label for="orderInput">Select order (>2): </label>
+    <input type="number" id="orderInput" value="4" min="2" max="1000">
+    <button onclick="restartAnimation()">Start Animation</button>
+
+    <script>
+        let order = 4;
+        let N;
+        let total;
+        let path = [];
+        let counter = 0;
+        let animationPlaying = false;
+
+        function setup() {
+            createCanvas(400, 400);
+            colorMode(HSB, 360, 255, 255);
+            background(0);
+            calculatePath();
+            frameRate(30);
+        }
+
+        function draw() {
+            if (animationPlaying) {
+                background(0);
+                stroke(255, 0, 255);
+                strokeWeight(2);
+                noFill();
+
+                beginShape();
+                for (let i = 0; i <= counter; i++) {
+                    vertex(path[i].x, path[i].y);
+                }
+                endShape();
+
+                if (counter < total - 1) {
+                    counter++;
+                } else {
+                    animationPlaying = false; // Stop the loop when we reach the end of the path
+                }
+            }
+        }
+
+        function hilbert(i) {
+            const points = [
+                createVector(0, 0),
+                createVector(0, 1),
+                createVector(1, 1),
+                createVector(1, 0)
+            ];
+
+            let index = i & 3;
+            let v = points[index].copy();
+            for (let j = 1; j < order; j++) {
+                i >>= 2;
+                index = i & 3;
+                let len = pow(2, j);
+                let temp;
+
+                switch (index) {
+                    case 0:
+                        temp = v.x;
+                        v.x = v.y;
+                        v.y = temp;
+                        break;
+                    case 1:
+                        v.y += len;
+                        break;
+                    case 2:
+                        v.x += len;
+                        v.y += len;
+                        break;
+                    case 3:
+                        temp = len - 1 - v.x;
+                        v.x = len - 1 - v.y;
+                        v.y = temp;
+                        v.x += len;
+                        break;
+                }
+            }
+            return v;
+        }
+
+        function calculatePath() {
+            order = parseInt(document.getElementById('orderInput').value);
+            N = Math.pow(2, order);
+            total = N * N;
+            path = [];
+            for (let i = 0; i < total; i++) {
+                path[i] = hilbert(i);
+                path[i].mult(width / N);
+                path[i].add(width / N / 2, width / N / 2);
+            }
+        }
+
+        function restartAnimation() {
+            calculatePath();
+            counter = 0;
+            animationPlaying = true;
+        }
+    </script>
+</body>
+</html>
