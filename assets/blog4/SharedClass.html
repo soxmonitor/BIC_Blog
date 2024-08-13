@@ -1,0 +1,110 @@
+<body>
+    <style>
+    .collapsible {
+      background-color: #f9f9f9;
+      color: #444;
+      cursor: pointer;
+      padding: 18px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 15px;
+    }
+    
+    .collapsible:hover {
+      background-color: #ddd;
+    }
+    
+    .content {
+      padding: 0 18px;
+      display: none;
+      overflow: hidden;
+      background-color: #f1f1f1;
+    }
+    </style>
+    
+    <button class="collapsible">展开/折叠 代码 </button>
+    <div class="content" style="display:none;">
+    <pre><code class="language-python">
+        # 神经元是否有mark？ mark代表簇号
+
+
+        class OG_GNC:
+            def __init__(self):
+                self.Epop = []  # 暂定
+                self.NUM_Nueron = 0
+                self.P = 0
+                self.W = []
+                self.C = []
+                self.constrains = []
+        
+        
+        class GNC:
+            def __init__(self, N, P, W, C):
+                self.N = N  # 神经元数量
+                self.P = P  # Population个数
+                self.W = W  # 权重矩阵
+                self.C = C  # 连接矩阵
+        
+        
+        def convert_oggnc_to_gnc(og_gnc):
+            # 从 OG_GNC 实例中读取相应的属性
+            N = og_gnc.NUM_Neuron
+            P = og_gnc.P
+            W = og_gnc.W
+            C = og_gnc.C
+        
+            # 创建并返回一个新的 GNC 实例
+            return GNC(N, P, W, C)
+        
+        
+        class GNCList:
+            def __init__(self):
+                self.nodes = []  # Initializes an empty list to store nodes
+        
+            def add_node(self, node):
+                self.nodes.append(node)  # Adds a GNC node to the list
+        
+            def get_node(self, index):
+                if index < len(self.nodes):
+                    return self.nodes[index]  # Returns the node at a specific index
+                return None  # Returns None if index is out of range
+        
+        
+        class SparseMatrixCSR:
+            def __init__(self):
+                self.row = []
+                self.col = []
+                self.value = []
+        
+            def add_entries(self, cols, values, base_index):
+                self.row.append(base_index)
+                self.col.extend(cols)
+                self.value.extend(values)
+        
+            def finalize(self):
+                self.row.append(len(self.value))  # 最后一个元素指向value数组的长度
+        
+    </code></pre>
+    </div>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function(){
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+    
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            });
+        }
+    });
+    </script>
+    </body>

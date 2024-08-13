@@ -551,29 +551,5 @@ document.addEventListener("DOMContentLoaded", function(){
 
 最后认为我们应该共享一下各自定义的<b>类</b>（<b>class</b>），这样会比较明白互相之间需要什么参数
 
-我目前定义的class如下
-
-```
-  
-    class GNC:
-        def __init__(self, N, P, W, C):
-            self.N = N  # 神经元数量
-            self.P = P  # Population个数
-            self.W = W  # 权重矩阵
-            self.C = C  # 连接矩阵
-
-    class SparseMatrixCSR:
-    def __init__(self):
-        self.row = []
-        self.col = []
-        self.value = []
-
-    def add_entries(self, cols, values, base_index):
-        self.row.append(base_index)
-        self.col.extend(cols)
-        self.value.extend(values)
-
-    def finalize(self):
-        self.row.append(len(self.value))  # 最后一个元素指向value数组的长度
-```
-
+我目前定义的class如下：
+<iframe src="/assets/blog4/SharedClass.html" frameborder="1" width="500" height="600"> 看不到頁面時才會顯示這行文字</iframe>
