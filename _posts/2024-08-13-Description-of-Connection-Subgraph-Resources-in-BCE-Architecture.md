@@ -552,4 +552,4 @@ document.addEventListener("DOMContentLoaded", function(){
 最后认为我们应该共享一下各自定义的<b>类</b>（<b>class</b>），这样会比较明白互相之间需要什么参数
 
 我目前定义的class如下：
-<iframe src="/assets/blog4/SharedClass.html" frameborder="1" width="500" height="600"> 看不到頁面時才會顯示這行文字</iframe>
+<iframe src="/assets/blog4/SharedClass.html" frameborder="1" width="800" height="600"> 看不到頁面時才會顯示這行文字</iframe>

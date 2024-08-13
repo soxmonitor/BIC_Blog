@@ -27,64 +27,125 @@
     <button class="collapsible">展开/折叠 代码 </button>
     <div class="content" style="display:none;">
     <pre><code class="language-python">
-        # 神经元是否有mark？ mark代表簇号
+        # 神经元是否有mark来代表簇号？有mark的话不提供给我每个GNCs的范围（即包含哪些神经元）也行，我就遍历一遍神经元再给GNC编号；
+# 没有的话建议用GNCGraph这个类来存了以后传过来。
 
 
-        class OG_GNC:
-            def __init__(self):
-                self.Epop = []  # 暂定
-                self.NUM_Nueron = 0
-                self.P = 0
-                self.W = []
-                self.C = []
-                self.constrains = []
-        
-        
-        class GNC:
-            def __init__(self, N, P, W, C):
-                self.N = N  # 神经元数量
-                self.P = P  # Population个数
-                self.W = W  # 权重矩阵
-                self.C = C  # 连接矩阵
-        
-        
-        def convert_oggnc_to_gnc(og_gnc):
-            # 从 OG_GNC 实例中读取相应的属性
-            N = og_gnc.NUM_Neuron
-            P = og_gnc.P
-            W = og_gnc.W
-            C = og_gnc.C
-        
-            # 创建并返回一个新的 GNC 实例
-            return GNC(N, P, W, C)
-        
-        
-        class GNCList:
-            def __init__(self):
-                self.nodes = []  # Initializes an empty list to store nodes
-        
-            def add_node(self, node):
-                self.nodes.append(node)  # Adds a GNC node to the list
-        
-            def get_node(self, index):
-                if index < len(self.nodes):
-                    return self.nodes[index]  # Returns the node at a specific index
-                return None  # Returns None if index is out of range
-        
-        
-        class SparseMatrixCSR:
-            def __init__(self):
-                self.row = []
-                self.col = []
-                self.value = []
-        
-            def add_entries(self, cols, values, base_index):
-                self.row.append(base_index)
-                self.col.extend(cols)
-                self.value.extend(values)
-        
-            def finalize(self):
-                self.row.append(len(self.value))  # 最后一个元素指向value数组的长度
+class OG_GNC:
+    def __init__(self):
+        self.Epop = []  # 数据结构暂定为List，内部放什么我不清楚, 这是种群记录项
+        self.NUM_Neuron = 0  # 神经元总数
+        self.P = 0
+        self.W = []
+        self.C = []
+        self.P = []
+        self.constrains = []
+
+
+class GNC:
+    def __init__(self, N, P, W, C):
+        self.N = N  # 神经元数量
+        self.P = P  # Population个数
+        self.W = W  # 权重矩阵
+        self.C = C  # 连接矩阵
+        self.P = []  # （神经元状态|参数）作为tuples
+
+
+def convert_oggnc_to_gnc(og_gnc):
+    # 从 OG_GNC 实例中读取相应的属性
+    N = og_gnc.NUM_Neuron
+    P = og_gnc.P
+    W = og_gnc.W
+    C = og_gnc.C
+
+    # 创建并返回一个新的 GNC 实例
+    return GNC(N, P, W, C)
+
+
+class GNCList:  # <- 不是很推荐用这个结构传给我!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    def __init__(self):
+        self.nodes = []  # Initializes an empty list to store nodes
+
+    def add_node(self, node):
+        self.nodes.append(node)  # Adds a GNC node to the list
+
+    def get_node(self, index):
+        if index < len(self.nodes):
+            return self.nodes[index]  # Returns the node at a specific index
+        return None  # Returns None if index is out of range
+
+
+class GNCGraph:  # 邓景年想要的定簇步（Step3）的输入,也就是簇构成的图
+    def __init__(self, size):
+        self.size = size
+        self.matrix = [[0] * size for _ in range(size)]  # 创建一个size x size的矩阵，初始化为0
+        self.nodes = [None] * size  # 存储 GNC 实例的列表
+
+    def add_node(self, node, index):
+        if 0 <= index < self.size:
+            self.nodes[index] = node
+
+    def add_edge(self, from_index, to_index):
+        if 0 <= from_index < self.size and 0 <= to_index < self.size:
+            self.matrix[from_index][to_index] = 1  # 设置矩阵相应位置为1，表示存在边
+
+    def get_node(self, index):
+        if 0 <= index < self.size:
+            return self.nodes[index]
+
+
+#######################################################################################################################
+
+#                               Example Usage
+
+#######################################################################################################################
+#
+# # 使用样例：
+# # 创建图实例
+# g = GNCGraph(3)  # 假设有三个节点
+#
+# # 创建 GNC 实例
+# gnc1 = GNC(N=100, P=10, W=[[1, 0], [0, 1]], C=[[1, 0], [0, 1]])
+# gnc2 = GNC(N=150, P=15, W=[[0, 1], [1, 0]], C=[[0, 1], [1, 0]])
+# gnc3 = GNC(N=200, P=20, W=[[1, 1], [1, 1]], C=[[1, 1], [1, 1]])
+#
+# # 添加节点到图中
+# g.add_node(gnc1, 0)
+# g.add_node(gnc2, 1)
+# g.add_node(gnc3, 2)
+#
+# # 添加边
+# g.add_edge(0, 1)
+# g.add_edge(1, 2)
+# g.add_edge(2, 0)  # 创建一个环
+#
+# # 访问并打印一个节点
+# node = g.get_node(1)
+# if node:
+#     print("神经元数量:", node.N)
+#     print("Population个数:", node.P)
+#######################################################################################################################
+
+#                                           EOF
+
+#######################################################################################################################
+class SparseMatrixCSR:
+    def __init__(self):
+        self.row = []
+        self.col = []
+        self.value = []
+
+    def add_entries(self, cols, values, base_index):
+        self.row.append(base_index)
+        self.col.extend(cols)
+        self.value.extend(values)
+
+    def finalize(self):
+        self.row.append(len(self.value))  # 最后一个元素指向value数组的长度
+
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 庭頫这边打包的类的结构还没定，但是我的网页大致的构架有写，你看看还要什么数据!!!!!!!!!!!!!!!!!!!!!!
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 直接加到这个SharedClass文件里就行!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         
     </code></pre>
     </div>
